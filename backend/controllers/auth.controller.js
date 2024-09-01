@@ -4,9 +4,9 @@ import generateTokenSetcookie from "../utils/generateToken.js";
 
 export const signup = async (req, res) => {
     try {
-        const { fullName, username, password, confirmpssword, gender } = req.body;
-        if (password != confirmpssword) {
-            return res.status(400).json({ error: "password don't match" })
+        const { fullName, username, password, confirmPassword, gender } = req.body;
+        if (password !== confirmPassword) {
+            return res.status(400).json({ error: "password do not match" })
         }
 
         const user = await userModel.findOne({ username });
@@ -73,7 +73,6 @@ export const login = async (req, res) => {
         }
 
         generateTokenSetcookie(user._id, res)
-
 
         res.status(200).json({
             _id: user._id,

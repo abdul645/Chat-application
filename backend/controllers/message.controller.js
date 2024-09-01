@@ -1,5 +1,6 @@
 import conversationModel from "../models/conversation.model.js"
 import messageModel from "../models/message.model.js";
+import { getReceiverSocketId, io } from "../socket/socket.js";
 
 // The function is responsible for handling the sending of messages between users. 
 export const sendMessage = async (req, res) => {
@@ -43,8 +44,6 @@ export const sendMessage = async (req, res) => {
             conversation.messages.push(newMessage._id)
         }
 
-        // SOCKET IO FUNCTIONALITY WILL GO HERE
-
         // save to database
         // await conversation.save();
         // await newMessage.save();
@@ -56,6 +55,17 @@ export const sendMessage = async (req, res) => {
         // by reducing the time required for both operations.
         await Promise.all([conversation.save(), newMessage.save()])
 
+
+        // SOCKET IO FUNCTIONALITY WILL GO HERE
+        // real time messaging
+        const receiverSocketId = getReceiverSocketId(receiverId);
+        if(receiverSocketId){
+            
+            //io.to(<socket_id>).emit() used to send events to specific client.
+            io.to(receiverSocketId).emit("newMessage", newMessage)
+        }
+
+
         //return the message
         //Returning the Response
         //After saving, the function responds with a 201 Created status and the newly created message object in JSON format.
@@ -64,6 +74,7 @@ export const sendMessage = async (req, res) => {
 
     } catch (error) {
         console.log("Error in sendMessage controller: ", error.message);
+        // console.log("error is here");
         res.status(500).json({ error: "Internl server error" })
     }
 

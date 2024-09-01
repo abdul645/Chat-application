@@ -1,7 +1,7 @@
 import userModel from "../models/user.model.js";
 
 
-export const getUserForSidebar = async (req, res)=> {
+export const getUserForSidebar = async (req, res) => {
     try {
 
         //get currently authenticated user id
@@ -10,7 +10,8 @@ export const getUserForSidebar = async (req, res)=> {
 
         //fetch all user from DB except current user(means itself)
         const filteredUsers = await userModel.find({_id:{ $ne: loggedInUserId}}).select("-password")
-
+        // console.log(filteredUsers);
+        
         res.status(200).json(filteredUsers)
         
     } catch (error) {

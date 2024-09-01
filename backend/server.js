@@ -1,14 +1,14 @@
 import express from "express";
 import  dotenv from "dotenv";
 import cookieParser from "cookie-parser";
+import { app, server } from "./socket/socket.js";
 
 import authRoute from "./routes/auth.routes.js"
 import messageRoutes from "./routes/message.routes.js"
 import userRoutes from "./routes/user.routes.js"
 
-
 import connectToMongoDB from "./db/connectToMongoDB.js";
-const app = express();
+// const app = express(); // it will be imported from socket.js file
 const PORT = process.env.PORT || 5000;
 
 dotenv.config();
@@ -22,11 +22,11 @@ app.use("/api/users", userRoutes)
 
 
 
-// app.get('/', (req, res)=>{
-//     res.send("hello world")
-// })
+app.get('/', (req, res)=>{
+    res.send("server is running")
+})
 
-app.listen(PORT, ()=>{
+server.listen(PORT, ()=>{
     connectToMongoDB();
     console.log(`server is running on http://localhost:${PORT}`);
     
