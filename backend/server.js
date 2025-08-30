@@ -1,5 +1,7 @@
-import express from "express";
 import  dotenv from "dotenv";
+dotenv.config();
+
+import express from "express";
 import cookieParser from "cookie-parser";
 import { app, server } from "./socket/socket.js";
 import path from "path";
@@ -14,8 +16,7 @@ const PORT = process.env.PORT || 5000;
 
 const __dirname = path.resolve();
 
-
-dotenv.config();
+connectToMongoDB();
 
 app.use(express.json()); // to parse the incoming requests with JSON payloads (from req.body)
 app.use(cookieParser());
@@ -35,7 +36,6 @@ app.get("*", (req, res) =>{
 // })
 
 server.listen(PORT, ()=>{
-    connectToMongoDB();
     console.log(`server is running on http://localhost:${PORT}`);
     
 })

@@ -16,7 +16,6 @@ const SignUp = () => {
 
     const handleCheckboxChange = (gender) =>{
         // console.log(gender.target.checked);
-
         setInputs({...inputs, gender})
     }
 
