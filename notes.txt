@@ -34,8 +34,6 @@ when loading message it show message skeleton
 extension 
 1. Tailwind CSS IntelliSense
 
-
-
 Socket.io
 
 Socket.IO enables real-time, bidirectional communication between clients and servers, so there's no need to 
